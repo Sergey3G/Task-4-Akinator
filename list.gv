@@ -1,0 +1,15 @@
+digraph G {
+  bgcolor="#ffffffff";
+  node [shape=record, fontname="Helvetica", fontsize=10, style=filled, fillcolor="#ded1d1ff", fontcolor="#c20c0cff", color=gray];
+  edge [arrowsize=0.7, color=gray];
+
+  node0 [label="{address: 0x6f51d2ee0040 | value = 10 | {LEFT | RIGHT}}"];
+  node1 [label="{address: 0x6f51d2ee0070 | value = 5 | {LEFT | RIGHT}}"];
+  node0 -> node1;
+  node2 [label="{address: 0x6f51d2ee00a0 | value = 20 | {LEFT | RIGHT}}"];
+  node3 [label="{address: 0x6f51d2ee00d0 | value = 15 | {LEFT | RIGHT}}"];
+  node2 -> node3;
+  node4 [label="{address: 0x6f51d2ee0100 | value = 25 | {LEFT | RIGHT}}"];
+  node2 -> node4;
+  node0 -> node2;
+}
