@@ -8,21 +8,21 @@ void node_dump(const TreeNode* node, FILE* f, size_t* node_num)
 
     size_t current_num = (*node_num)++;
 
-    fprintf(f, "  node%zu [label=\"{address: %p | value = %d | {LEFT | RIGHT}}\"];\n",
-            current_num, (void*)node, node->value);
+    fprintf(f, "  node%zu [label=\"{ %s | {<yes> YES | <no >NO}}\"];\n",
+            current_num, node->value);
 
-    if (node->left)
+    if (node->yes)
     {
-        size_t left_num = *node_num;
-        node_dump(node->left, f, node_num);
-        fprintf(f, "  node%zu -> node%zu;\n", current_num, left_num);
+        size_t yes_num = *node_num;
+        node_dump(node->yes, f, node_num);
+        fprintf(f, "  node%zu:yes -> node%zu;\n", current_num, yes_num);
     }
 
-    if (node->right)
+    if (node->no)
     {
-        size_t right_num = *node_num;
-        node_dump(node->right, f, node_num);
-        fprintf(f, "  node%zu -> node%zu;\n", current_num, right_num);
+        size_t no_num = *node_num;
+        node_dump(node->no, f, node_num);
+        fprintf(f, "  node%zu:no -> node%zu;\n", current_num, no_num);
     }
 }
 
