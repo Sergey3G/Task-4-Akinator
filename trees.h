@@ -2,6 +2,7 @@
 #define TREES_H
 
 #define MAX_NODE_VALUE_LEN 100
+#define MAX_TREE_DEPTH 256
 
 typedef char* data_t;
 
@@ -34,6 +35,7 @@ char* file_to_buffer(const char* filename);
 TreeNode* construct_tree_from_buffer(char* buffer);
 TreeNode* parse_tree(char** p);
 void print_prefix_tree(const TreeNode* node);
+void compare_characters(TreeNode* root);
 
 #endif
 

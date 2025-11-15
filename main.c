@@ -11,39 +11,26 @@ int main(const int argc, const char* const argv[])
         return 1;
     }
 
-    const char* filename_1 = argv[1];
-    const char* filename_2 = argv[2];
+    const char* tree_filename = argv[1];
+    const char* dump_filename = argv[2];
 
-    /*
-    TreeNode* animal = construct_node("animal");
-    TreeNode* beautiful = construct_node("Beautiful");
-    TreeNode* poltorashka = construct_node("Poltorashka");
-    TreeNode* kabanchik = construct_node("kabanchik");
-    TreeNode* lecturer = construct_node("lecturer");
-    TreeNode* petrovich = construct_node("Petrovich");
-    TreeNode* pasha_t = construct_node("Pasha T");
+    char* string = file_to_buffer(tree_filename);
+    if (!string)
+    {
+        printf("Error: cannot read file %s!\n", tree_filename);
+        return 1;
+    }
 
-    animal->yes = beautiful;
-    beautiful->yes = poltorashka;
-    beautiful->no = kabanchik;
-    animal->no = lecturer;
-    lecturer->yes = petrovich;
-    lecturer->no = pasha_t;
-
-    run_game(animal);
-
-    print_infix_tree(animal);
-    tree_dump(animal, filename);
-    printf("\n");
-    */
-
-    char* string = file_to_buffer(filename_1);
     TreeNode* root = construct_tree_from_buffer(string);
+    if (!root)
+    {
+        printf("Cannot construct tree!\n");
+        free(string);
+        return 1;
+    }
 
-    tree_dump(root, filename_2);
-    printf("%s", string);
-    print_prefix_tree(root);
-    printf("\n");
+    run_game(root);
+    tree_dump(root, dump_filename);
 
     free_tree(root);
     free(string);

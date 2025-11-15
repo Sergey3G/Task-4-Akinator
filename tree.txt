@@ -1,1 +1,1 @@
-("animal"("beautiful"("Poltorashka" nil nil)("kabanchik" nil nil))("lecturer"("fisher"("Podlipskiy" nil nil)("Petrovich" nil nil))("Sergey Kovalenko" nil nil)))
+("animal"("beautiful"("Poltorashka" nil nil)("kabanchik" nil nil))("lecturer"("fisher"("Podlipskiy" nil nil)("Petrovich" nil nil))("Sergey" nil nil)))

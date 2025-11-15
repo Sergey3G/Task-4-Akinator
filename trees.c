@@ -129,19 +129,33 @@ void run_game(TreeNode* root)
 {
     while (1)
     {
-        tree_traversal(root);
+        printf("MENU\n");
+        printf("1 - Play Akinator\n");
+        printf("2 - Compare 2 characters\n");
+        printf("3 - Exit\n");
+        printf("Enter your choice:\n");
 
-        printf("Would you like to play again?\n");
-        AnswersEnum answer_code = analyse_answer();
+        int choice = 0;
+        scanf("%d", &choice);
 
-        if (answer_code == NO)
+        switch (choice)
         {
-            printf("Goodbye!\n");
-            return;
+            case 1:
+                printf("\nStarting game...\n\n");
+                tree_traversal(root);
+                break;
+            case 2:
+                printf("\nComparing characters...\n\n");
+                compare_characters(root);
+                break;
+            case 3:
+                printf("Goodbye!\n");
+                return;
+            default:
+                printf("Incorrect answer!\n");
+                break;
         }
     }
-
-    printf("Starting a new game!\n\n");
 }
 
 char* file_to_buffer(const char* filename)
@@ -248,11 +262,121 @@ TreeNode* parse_tree(char** p)
 void print_prefix_tree(const TreeNode* node)
 {
     if (!node)
+    {
+        printf(" nil ");
         return;
+    }
 
     printf("(");
-    printf("%s", node->value);
+    printf("\"%s\"", node->value);
     print_prefix_tree(node->yes);
     print_prefix_tree(node->no);
     printf(")");
 }
+
+int find_path(TreeNode* root, const char* target, char* path, int depth)
+{
+    if (!root)
+        return 0;
+
+    if (!strcmp(root->value, target))
+    {
+        path[depth] = '\0';
+        return 1;
+    }
+
+    path[depth] = 'Y';
+    if (find_path(root->yes, target, path, depth + 1))
+        return 1;
+
+    path[depth] = 'N';
+    if (find_path(root->no, target, path, depth + 1))
+        return 1;
+
+    return 0;
+}
+
+void print_common_questions(TreeNode* root, const char* p1, const char* p2)
+{
+    TreeNode* cur = root;
+    int i = 0;
+
+    printf("Common questions:\n");
+
+    while (p1[i] && p2[i] && p1[i] == p2[i])
+    {
+        printf("- %s (ответ: %c)\n", cur->value, p1[i]);
+
+        cur = (p1[i] == 'Y') ? cur->yes : cur->no;
+        i++;
+    }
+
+    if (i == 0)
+        printf("No common questions.\n");
+    else
+        printf("There are %d common questions.\n", i);
+}
+
+void print_first_difference(TreeNode* root, const char* p1, const char* p2)
+{
+    TreeNode* cur = root;
+    int i = 0;
+
+    while (p1[i] && p2[i] && p1[i] == p2[i])
+    {
+        cur = (p1[i] == 'Y') ? cur->yes : cur->no;
+        i++;
+    }
+
+    if (!p1[i] || !p2[i])
+    {
+        printf("Characters are similar or one is subtree of another.\n");
+        return;
+    }
+
+    printf("\nFirst different question:\n");
+    printf("%s\n", cur->value);
+    printf(" - character 1: %c\n", p1[i]);
+    printf(" - character 2: %c\n", p2[i]);
+}
+
+void compare_paths(const char* p1, const char* p2)
+{
+    printf("Path 1: %s\n", p1);
+    printf("Path 2: %s\n", p2);
+}
+
+void compare_characters(TreeNode* root)
+{
+    char name1[MAX_NODE_VALUE_LEN] = {0};
+    char name2[MAX_NODE_VALUE_LEN] = {0};
+
+    printf("Enter first character's name: ");
+    scanf(" %99[^\n]", name1);
+
+    printf("Enter second character's name: ");
+    scanf(" %99[^\n]", name2);
+
+    char path1[MAX_TREE_DEPTH] = {0};
+    char path2[MAX_TREE_DEPTH] = {0};
+
+    if (!find_path(root, name1, path1, 0))
+    {
+        printf("Character %s is not found in tree!\n", name1);
+        return;
+    }
+
+    if (!find_path(root, name2, path2, 0))
+    {
+        printf("Character %s is not found in tree!\n", name2);
+        return;
+    }
+
+    printf("Comparing:\n");
+    compare_paths(path1, path2);
+    printf("Common questions:\n");
+    print_common_questions(root, path1, path2);
+    printf("First different question:\n");
+    print_first_difference(root, path1, path2);
+}
+

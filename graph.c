@@ -8,8 +8,12 @@ void node_dump(const TreeNode* node, FILE* f, size_t* node_num)
 
     size_t current_num = (*node_num)++;
 
-    fprintf(f, "  node%zu [label=\"{ %s | {<yes> YES | <no >NO}}\"];\n",
+    if (!node->yes && !node->no)
+        fprintf(f, "  node%zu [label=\"{ %s }\"];\n",
             current_num, node->value);
+    else
+        fprintf(f, "  node%zu [label=\"{ %s | {<yes> YES | <no >NO}}\"];\n",
+                current_num, node->value);
 
     if (node->yes)
     {

@@ -5,19 +5,31 @@ digraph G {
 
   node0 [label="{ animal | {<yes> YES | <no >NO}}"];
   node1 [label="{ beautiful | {<yes> YES | <no >NO}}"];
-  node2 [label="{ Poltorashka | {<yes> YES | <no >NO}}"];
+  node2 [label="{ Poltorashka }"];
   node1:yes -> node2;
-  node3 [label="{ kabanchik | {<yes> YES | <no >NO}}"];
+  node3 [label="{ kabanchik }"];
   node1:no -> node3;
   node0:yes -> node1;
   node4 [label="{ lecturer | {<yes> YES | <no >NO}}"];
   node5 [label="{ fisher | {<yes> YES | <no >NO}}"];
-  node6 [label="{ Podlipskiy | {<yes> YES | <no >NO}}"];
+  node6 [label="{ Podlipskiy }"];
   node5:yes -> node6;
-  node7 [label="{ Petrovich | {<yes> YES | <no >NO}}"];
+  node7 [label="{ Petrovich }"];
   node5:no -> node7;
   node4:yes -> node5;
-  node8 [label="{ Sergey Kovalenko | {<yes> YES | <no >NO}}"];
+  node8 [label="{ matan teacher | {<yes> YES | <no >NO}}"];
+  node9 [label="{ Artyom Kalinichenko }"];
+  node8:yes -> node9;
+  node10 [label="{ mraz' | {<yes> YES | <no >NO}}"];
+  node11 [label="{ department of foreign languages head | {<yes> YES | <no >NO}}"];
+  node12 [label="{ Elena Bazanova }"];
+  node11:yes -> node12;
+  node13 [label="{ Umnov }"];
+  node11:no -> node13;
+  node10:yes -> node11;
+  node14 [label="{ Sergey }"];
+  node10:no -> node14;
+  node8:no -> node10;
   node4:no -> node8;
   node0:no -> node4;
 }
