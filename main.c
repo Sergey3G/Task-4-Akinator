@@ -21,6 +21,7 @@ int main(const int argc, const char* const argv[])
         return 1;
     }
 
+
     TreeNode* root = construct_tree_from_buffer(string);
     if (!root)
     {
@@ -31,6 +32,14 @@ int main(const int argc, const char* const argv[])
 
     run_game(root);
     tree_dump(root, dump_filename);
+
+    FILE* output_file = fopen(tree_filename, "w");
+    if (!output_file)
+    {
+        printf("Error: cannot open file %s!\n", tree_filename);
+        return 1;
+    }
+    tree_to_file(output_file, root);
 
     free_tree(root);
     free(string);

@@ -380,3 +380,21 @@ void compare_characters(TreeNode* root)
     print_first_difference(root, path1, path2);
 }
 
+void tree_to_file(FILE* file, const TreeNode* root)
+{
+    if (!file)
+        return;
+
+    if (!root)
+    {
+        fprintf(file, " nil ");
+        return;
+    }
+
+    fprintf(file, "(");
+    fprintf(file, "\"%s\"", root->value);
+    tree_to_file(file, root->yes);
+    tree_to_file(file, root->no);
+    fprintf(file, ")");
+}
+

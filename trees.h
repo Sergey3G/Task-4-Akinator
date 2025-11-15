@@ -36,6 +36,7 @@ TreeNode* construct_tree_from_buffer(char* buffer);
 TreeNode* parse_tree(char** p);
 void print_prefix_tree(const TreeNode* node);
 void compare_characters(TreeNode* root);
+void tree_to_file(FILE* file, const TreeNode* root);
 
 #endif
 
