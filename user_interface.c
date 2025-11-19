@@ -82,6 +82,7 @@ int ui_init(void)
     font = sfFont_createFromFile("/usr/local/share/fonts/moscowsansregular.ttf");
     if (!font)
     {
+        printf("Trying to load font from directory...\n");
         font = sfFont_createFromFile("moscowsansregular.ttf");
         if (!font)
             fprintf(stderr, "UI: cannot load font moscowsansregular.ttf\n");
@@ -126,7 +127,8 @@ static void draw_question(const char* question)
 
 int ui_ask_yes_no(const char* question)
 {
-    if (!window) {
+    if (!window)
+    {
         fprintf(stderr, "UI: ui_ask_yes_no called before ui_init\n");
         return 0;
     }
@@ -183,7 +185,8 @@ int ui_ask_yes_no(const char* question)
 int ui_input_text(const char* prompt, char* buffer, int max_len)
 {
     if (!buffer || max_len <= 0) return 0;
-    if (!window) {
+    if (!window)
+    {
         fprintf(stderr, "UI: ui_input_text called before ui_init\n");
         return 0;
     }
@@ -191,11 +194,6 @@ int ui_input_text(const char* prompt, char* buffer, int max_len)
     buffer[0] = '\0';
     int pos = 0;
     int submitted = 0;
-
-    if (input_prompt)
-    {
-        sfText_setString(input_prompt, prompt ? prompt : "");
-    }
 
     while (sfRenderWindow_isOpen(window) && !submitted)
     {
@@ -217,7 +215,7 @@ int ui_input_text(const char* prompt, char* buffer, int max_len)
                     break;
                 }
 
-                if (unicode == 8) /* backspace */
+                if (unicode == 8)
                 {
                     if (pos > 0) { pos--; buffer[pos] = '\0'; }
                 }
@@ -237,13 +235,13 @@ int ui_input_text(const char* prompt, char* buffer, int max_len)
                 int mouse_y = event.mouseButton.position.y;
                 if (point_in_rectshape(yes_rect, mouse_x, mouse_y))
                 {
-                    strncpy(buffer, "YES", (size_t)max_len - 1);
+                    strncpy(buffer, "YES", (size_t)(max_len - 1));
                     buffer[max_len - 1] = '\0';
                     submitted = 1;
                 }
                 else if (point_in_rectshape(no_rect, mouse_x, mouse_y))
                 {
-                    strncpy(buffer, "NO", (size_t)max_len - 1);
+                    strncpy(buffer, "NO", (size_t)(max_len - 1));
                     buffer[max_len - 1] = '\0';
                     submitted = 1;
                 }
@@ -257,7 +255,7 @@ int ui_input_text(const char* prompt, char* buffer, int max_len)
 
         sfText* title = sfText_create(font);
         sfText_setCharacterSize(title, 20);
-        sfText_setString(title, "Akinator (UI) - use buttons or type in bottom field and press Enter");
+        sfText_setString(title, prompt);
         sfText_setPosition(title, (sfVector2f){20, 10});
         sfRenderWindow_drawText(window, title, NULL);
         sfText_destroy(title);

@@ -370,7 +370,7 @@ void compare_characters(TreeNode* root)
         return;
     }
 
-    char out[1024];
+    char out[1024] = {0};
     snprintf(out, sizeof(out), "Path1: %s\nPath2: %s\n(Press Enter)", path1, path2);
     char tmpbuf[2] = {0};
     ui_input_text(out, tmpbuf, 2);

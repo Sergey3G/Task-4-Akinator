@@ -4,7 +4,9 @@
         "user_interface.h": "c",
         "keyboard.h": "c",
         "stdio.h": "c",
-        "trees.h": "c"
+        "trees.h": "c",
+        "graphics.h": "c",
+        "string.h": "c"
     },
     "editor.language.brackets": [
 
