@@ -47,7 +47,7 @@ void tree_dump(const TreeNode* root, const char* filename)
 
     fprintf(f, "digraph G {\n");
     fprintf(f, "  bgcolor=\"#ffffffff\";\n");
-    fprintf(f, "  node [shape=record, fontname=\"Helvetica\", fontsize=10, "
+    fprintf(f, "  node [shape=record, fontname=\"Moscow Sans\", fontsize=10, "
                 "style=filled, fillcolor=\"#ded1d1ff\", fontcolor=\"#c20c0cff\", color=gray];\n");
     fprintf(f, "  edge [arrowsize=0.7, color=gray];\n\n");
 

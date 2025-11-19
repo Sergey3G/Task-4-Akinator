@@ -1,6 +1,6 @@
 digraph G {
   bgcolor="#ffffffff";
-  node [shape=record, fontname="Helvetica", fontsize=10, style=filled, fillcolor="#ded1d1ff", fontcolor="#c20c0cff", color=gray];
+  node [shape=record, fontname="Moscow Sans", fontsize=10, style=filled, fillcolor="#ded1d1ff", fontcolor="#c20c0cff", color=gray];
   edge [arrowsize=0.7, color=gray];
 
   node0 [label="{ animal | {<yes> YES | <no >NO}}"];

@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "graph.h": "c"
-    }
+        "graph.h": "c",
+        "user_interface.h": "c",
+        "keyboard.h": "c",
+        "stdio.h": "c",
+        "trees.h": "c"
+    },
+    "editor.language.brackets": [
+
+    ]
 }

@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "trees.h"
 #include "graph.h"
+#include "user_interface.h"
 
 int main(const int argc, const char* const argv[])
 {
@@ -30,8 +32,15 @@ int main(const int argc, const char* const argv[])
         return 1;
     }
 
+    if (ui_init() == 0)
+    {
+        fprintf(stderr, "UI initialization failed!\n");
+        return 1;
+    }
+
     run_game(root);
     tree_dump(root, dump_filename);
+    ui_shutdown();
 
     FILE* output_file = fopen(tree_filename, "w");
     if (!output_file)

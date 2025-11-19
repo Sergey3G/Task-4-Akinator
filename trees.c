@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 
 #include "trees.h"
+#include "user_interface.h"
 
 Answer answers[2] = {{"NO", NO},
                      {"YES", YES}};
@@ -50,22 +51,21 @@ void tree_traversal(TreeNode* node)
     if (!node)
         return;
 
-    printf("Is your character %s? Answer \"YES\" or \"NO\":\n", node->value);
-    AnswersEnum answer_code = analyse_answer();
+    char question[512] = {0};
+    snprintf(question, sizeof(question), "Is your character %s?", node->value);
+    int ans = ui_ask_yes_no(question);
 
-    switch (answer_code)
+    switch (ans)
     {
-        case NO:
+        case 0:
             if (!node->no)
             {
-                printf("I don't know your character! Please enter his name:\n");
                 char new_character_name[MAX_NODE_VALUE_LEN] = {0};
-                scanf(" %99[^\n]", new_character_name);
-                printf("\n");
+                ui_input_text("I don't know. Enter character name and press Enter: ", new_character_name, MAX_NODE_VALUE_LEN);
 
-                printf("What is difference between your character and %s?\n", node->value);
                 char new_question_name[MAX_NODE_VALUE_LEN] = {0};
-                scanf(" %99[^\n]", new_question_name);
+                snprintf(question, sizeof(question), "What is difference between your character and %s?", node->value);
+                ui_input_text(question, new_question_name, MAX_NODE_VALUE_LEN);
 
                 char* old_value = node->value;
                 TreeNode* old_yes = node->yes;
@@ -80,8 +80,6 @@ void tree_traversal(TreeNode* node)
                 node->yes = construct_node(new_character_name);
                 free(old_value);
 
-                printf("You successfully added a new character!\n");
-
                 return;
             }
             else
@@ -89,7 +87,7 @@ void tree_traversal(TreeNode* node)
                 tree_traversal(node->no);
                 return;
             }
-        case YES:
+        case 1:
             if (!node->yes)
             {
                 printf("I guessed your character! I hope now you understand that I am cleverer than you!\n");
@@ -129,30 +127,27 @@ void run_game(TreeNode* root)
 {
     while (1)
     {
-        printf("MENU\n");
-        printf("1 - Play Akinator\n");
-        printf("2 - Compare 2 characters\n");
-        printf("3 - Exit\n");
-        printf("Enter your choice:\n");
-
-        int choice = 0;
-        scanf("%d", &choice);
+        char choice_buffer[8] = {0};
+        ui_input_text("MENU:\n1 - Play Akinator\n2 - Compare 2 characters\n3 - Exit\nEnter choice:", choice_buffer, sizeof(choice_buffer));
+        int choice = atoi(choice_buffer);
 
         switch (choice)
         {
             case 1:
-                printf("\nStarting game...\n\n");
                 tree_traversal(root);
                 break;
             case 2:
-                printf("\nComparing characters...\n\n");
                 compare_characters(root);
                 break;
             case 3:
-                printf("Goodbye!\n");
                 return;
             default:
-                printf("Incorrect answer!\n");
+                {
+                    char tmp[64] = {0};
+                    snprintf(tmp, sizeof(tmp), "Incorrect choice \"%s\". Please Enter", choice_buffer);
+                    char d[2] = {0};
+                    ui_input_text(tmp, d, 2);
+                }
                 break;
         }
     }
@@ -351,33 +346,38 @@ void compare_characters(TreeNode* root)
     char name1[MAX_NODE_VALUE_LEN] = {0};
     char name2[MAX_NODE_VALUE_LEN] = {0};
 
-    printf("Enter first character's name: ");
-    scanf(" %99[^\n]", name1);
-
-    printf("Enter second character's name: ");
-    scanf(" %99[^\n]", name2);
+    ui_input_text("Enter first character name: ", name1, MAX_NODE_VALUE_LEN);
+    ui_input_text("Enter second character name: ", name2, MAX_NODE_VALUE_LEN);
 
     char path1[MAX_TREE_DEPTH] = {0};
     char path2[MAX_TREE_DEPTH] = {0};
 
     if (!find_path(root, name1, path1, 0))
     {
-        printf("Character %s is not found in tree!\n", name1);
+        char tmp[256] = {0};
+        snprintf(tmp, sizeof(tmp), "Character %s was not found in tree. Press Enter", name1);
+        char dummy[2] = {0};
+        ui_input_text(tmp, dummy, 2);
         return;
     }
 
     if (!find_path(root, name2, path2, 0))
     {
-        printf("Character %s is not found in tree!\n", name2);
+        char tmp[256] = {0};
+        snprintf(tmp, sizeof(tmp), "Character %s was not found in tree. Press Enter", name1);
+        char dummy[2] = {0};
+        ui_input_text(tmp, dummy, 2);
         return;
     }
 
-    printf("Comparing:\n");
-    compare_paths(path1, path2);
-    printf("Common questions:\n");
+    char out[1024];
+    snprintf(out, sizeof(out), "Path1: %s\nPath2: %s\n(Press Enter)", path1, path2);
+    char tmpbuf[2] = {0};
+    ui_input_text(out, tmpbuf, 2);
+
     print_common_questions(root, path1, path2);
-    printf("First different question:\n");
-    print_first_difference(root, path1, path2);
+    char dummy2[2] = {0};
+    ui_input_text("Press Enter to continue", dummy2, 2);
 }
 
 void tree_to_file(FILE* file, const TreeNode* root)
